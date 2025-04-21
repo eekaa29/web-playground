@@ -18,9 +18,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from pages.urls import pages_patterns
 urlpatterns = [
     #path pages
-    path("pages/", include("pages.urls")),
+    path("pages/", include(pages_patterns)),
     #Path core
     path("", include("core.urls")),
     #Path admin
