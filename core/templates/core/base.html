@@ -36,11 +36,16 @@
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'login' %}">Login</a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'signup' %}">Regístrate</a>
+                </li>
               {% else %}
-                <form id="logout-form" method="post" action="{% url 'admin:logout' %} ">
-                  {% csrf_token %}
-                  <button type="submit" >Log out</button>
-                </form>
+                <li class="nav-item">
+                  <form id="logout-form" method="post" action="{% url 'admin:logout' %} ">
+                    {% csrf_token %}
+                    <button type="submit" style="background-color: #343a40; border: none; color: #f8f9fa;">Log out</button>
+                  </form>
+                </li>
               {% endif %}
             </ul>
           </div>
