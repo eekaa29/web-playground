@@ -42,3 +42,12 @@ footer p {
 .box-shadow { 
     box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); 
 }
+
+#logout-form {
+    display: inline;
+  }
+  #logout-form button {
+    background: #393e46;
+    cursor: pointer;
+    padding: 0;
+  }
