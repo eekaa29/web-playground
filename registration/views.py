@@ -1,8 +1,9 @@
-from .forms import RequiredEmailForm, ProfileForm
+from .forms import RequiredEmailForm, ProfileForm, UpdateEmailForm
 from django.views.generic import CreateView
 from django.views.generic.edit import UpdateView
 from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django import forms
 from .models import Profile
@@ -28,7 +29,7 @@ class SignUpView(CreateView):
         return form
     
 
-@method_decorator(staff_member_required, name="dispatch")
+@method_decorator(login_required, name="dispatch")
 class ProfileUpdate(UpdateView):
     form_class=ProfileForm
     success_url=reverse_lazy("profile")
@@ -40,4 +41,22 @@ class ProfileUpdate(UpdateView):
         #Recordar que es una realción OneToOne, un solo perfil para un solo user
         profile, created = Profile.objects.get_or_create(user=self.request.user)#Esot devuelve 2 tuplas,por un lado el user, por otro un Booleano para saber si se ha creado o no el perfil
         return profile
+    
+@method_decorator(login_required, name="dispatch")
+class UpdateEmail(UpdateView):
+    form_class = UpdateEmailForm
+    success_url = reverse_lazy("profile")
+    template_name= "registration/profile_email_form.html"
+    
+    def get_object(self):
+        #recuperar el objeto que queremos editar
+        return self.request.user
+    
+    
+    def get_form(self, form_class = None):
+        form = super(UpdateEmail, self).get_form()
+        form.fields["email"].widget = forms.EmailInput(
+            attrs = {"class": "form-control mb-2", "placeholder":"Email"})
+        return form
+
     
