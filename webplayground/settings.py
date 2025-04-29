@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_ckeditor_5',
     "pages.apps.PagesConfig",
+    "profiles",
     "core",
 ]
 

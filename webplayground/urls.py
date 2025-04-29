@@ -24,6 +24,8 @@ urlpatterns = [
     path("pages/", include(pages_patterns)),
     #Path core
     path("", include("core.urls")),
+    #Path profiles
+    path("profiles/", include("profiles.urls")),
     #Path admin
     path('admin/', admin.site.urls),
     #Path Authentication
@@ -31,8 +33,9 @@ urlpatterns = [
     #Path Registration
     path("accounts/", include("registration.urls")),
 
-]
-
+]#1-IMPORTANTE=> Si paso las urls de la manera en la que lo he hecho con pages, a la hora de acceder a esos paths en los templates tengo que ponerlo así=> {% url 'pages:nombre_de_url' %}
+#2-IMPORTANTE=> Si paso las urls de la manera en la que lo he hecho con profiles, a la hora de acceder a esos paths en los templates tengo que poner el nombre de la url directamente. 
+    #2.1 Ejemplo=>Si dentro de profiles hay dos path(profiles_list, profiles_detail), para acceder a uno de ellos sería así=> {% url 'profiles_list' %}. No puedo poner {% url 'profiles:profiles_list' %}. 
 if settings.DEBUG:
     from django.conf.urls.static import static
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
