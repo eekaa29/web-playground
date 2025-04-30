@@ -22,4 +22,4 @@ class Profile(models.Model):
 def ensure_profile_exists(sender, instance, **kwargs):
     if kwargs.get("created", False):#De esta manera comprobamos que es la primera vez que se guarda la instancia de ese usuario, ya que existirá el campo "created", de lo contrario será False. Así me aseguro de que la señal solo se ejecute la primera vez que se guarde un user, y no cada vez que se guarde después de actualizar un usuario existente.
         Profile.objects.get_or_create(user=instance)
-        print("Perfil creado correctamente")
+        #print("Perfil creado correctamente")
