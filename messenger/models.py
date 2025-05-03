@@ -28,8 +28,11 @@ class ThreadsManager(models.Manager):
 class Thread(models.Model):
     users = models.ManyToManyField(User, related_name="threads")
     messages = models.ManyToManyField(Message)
-
+    updated = models.DateTimeField(auto_now=True)
     objects = ThreadsManager()#De esta manera añado los nuevos ModelManagers al modelo que yo quiera
+
+    class Meta:
+        ordering = ["-updated"]
 
 def messages_changed(sender, **kwargs):
     instance = kwargs.pop("instance", None)
@@ -38,7 +41,7 @@ def messages_changed(sender, **kwargs):
     print(instance, action, pk_set)
 
     false_msg = set()
-    if action is "pre_add":
+    if action == "pre_add":
         for msg_pk in pk_set:
             msg = Message.objects.get(pk=msg_pk)
             if msg.user not in instance.users.all():
@@ -46,6 +49,9 @@ def messages_changed(sender, **kwargs):
                 false_msg.add(msg_pk)
 
     pk_set.difference_update(false_msg)
+    #Forzar la actualización haciendo save(para que el campo updated se actualize y aparezcan los hilos más recientes arriba del todo)
+    instance.save()
+
 
 m2m_changed.connect(messages_changed, sender=Thread.messages.through)
 

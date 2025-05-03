@@ -26,6 +26,8 @@ urlpatterns = [
     path("", include("core.urls")),
     #Path profiles
     path("profiles/", include("profiles.urls")),
+    #Path messenger
+    path("messenger/", include("messenger.urls")),
     #Path admin
     path('admin/', admin.site.urls),
     #Path Authentication
